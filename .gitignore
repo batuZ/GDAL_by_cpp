@@ -1,0 +1,5 @@
+gdal/
+x64/
+ipch/
+hello_GDAL.VC.db
+hello_GDAL.VC.VC.opendb
