@@ -29,18 +29,8 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="hello_GDAL.cpp">
+    <ClCompile Include="test1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\gdal\gdal14.dll">
-      <Filter>资源文件</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\gdal\gdal_i.lib">
-      <Filter>资源文件</Filter>
-    </Library>
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 gdal/
 x64/
 ipch/
+Debug/
 hello_GDAL.VC.db
 hello_GDAL.VC.VC.opendb
