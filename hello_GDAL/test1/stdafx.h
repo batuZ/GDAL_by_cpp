@@ -14,3 +14,8 @@
 
 
 // TODO:  在此处引用程序需要的其他头文件
+#include<iostream>
+#include "../gdal/gdal_priv.h"
+#include "../gdal/gdal_alg.h"
+#include "../gdal/ogrsf_frmts.h"
+using namespace std;

@@ -2,21 +2,17 @@
 //
 
 #include "stdafx.h"
-#include<iostream>
-#include "../gdal/gdal_priv.h"
-#include "../gdal/gdal_alg.h"
-#include "../gdal/gdal_priv.h"   
-#include "../gdal/ogrsf_frmts.h"
-using namespace std;
+#include "dzx.h"
 
 int main()
 {	
-	//×¢²áGDAL
 	GDALAllRegister();
-	//×¢²áOGR
 	OGRRegisterAll();
+	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
 
-	cout << "" << endl;
+	getDZX();
+
+	GDALDestroyDriverManager();
 	return 0;
 }
 

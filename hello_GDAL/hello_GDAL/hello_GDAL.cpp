@@ -9,12 +9,7 @@
 #include "../gdal/ogrsf_frmts.h"
 using namespace std;
 
-int main()
-{
-	callGDAL();
-	callOGR();
-	return 0;
-}
+
 
 void callGDAL()
 {
@@ -51,21 +46,8 @@ void callOGR()
 //创建坡度图 http://blog.csdn.net/liminlu0314/article/details/8498985
 
 
-#pragma region 创建等值线方法	GDALContourGenerate(。。。); http://blog.csdn.net/hong__fang/article/details/51605030
+// 创建等值线方法	GDALContourGenerate(。。。); http://blog.csdn.net/hong__fang/article/details/51605030
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	string imgPath = "F:\\2.tif";
-	string shpPath = "C:\\contour.shp";
-
-
-	CalContourByGdal(imgPath, shpPath, 500);
-
-	cout << "处理完成" << endl;
-	getchar();
-
-	return 0;
-}
 
 bool CalContourByGdal(string imgPath, string shpPath, double dfContourInterval)
 {
@@ -167,4 +149,23 @@ bool CalContourByGdal(string imgPath, string shpPath, double dfContourInterval)
 	}
 
 }
-#pragma endregion
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	string imgPath = "F:\\2.tif";
+	string shpPath = "C:\\contour.shp";
+
+
+	CalContourByGdal(imgPath, shpPath, 500);
+
+	cout << "处理完成" << endl;
+	getchar();
+
+	return 0;
+}
+int main()
+{
+	callGDAL();
+	callOGR();
+	return 0;
+}
