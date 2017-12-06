@@ -15,6 +15,9 @@
 
 // TODO:  在此处引用程序需要的其他头文件
 #include<iostream>
+#include <math.h>
+#include <list>
+#include "tools.h"
 #include "../gdal/gdal_priv.h"
 #include "../gdal/gdal_alg.h"
 #include "../gdal/ogrsf_frmts.h"

@@ -9,6 +9,18 @@
 #include "../gdal/ogrsf_frmts.h"
 using namespace std;
 
+void getAue(double* arr, double* res)
+{
+	double f = 0;
+	for (size_t i = 0; i < 3; i++)
+	{
+		f += arr[i];
+	}
+	*res = f / 3;
+}
+
+#pragma region MyRegion
+
 
 
 void callGDAL()
@@ -163,9 +175,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	return 0;
 }
+#pragma endregion
 int main()
 {
-	callGDAL();
-	callOGR();
+	double ss[] = { 44.4,55.5,66.6 ,77.7};
+	double* rrr = new double();
+	getAue(ss, rrr);
 	return 0;
 }
