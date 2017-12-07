@@ -1,11 +1,8 @@
 #pragma once
 
-
-
+OGRLayer* dzxRes();
 //1
-void getDZX();
-
+OGRLayer * getDZX();
 //2 clean
-void cleanDZX(OGRLayer* layer);
-
+OGRLayer * cleanDZX(OGRLayer* layer);
 void getBZC(OGRLayer* layer, double* aue, double* bzc);

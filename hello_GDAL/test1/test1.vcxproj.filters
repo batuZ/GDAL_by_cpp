@@ -52,5 +52,8 @@
     <Library Include="..\gdal\gdal_i.lib">
       <Filter>资源文件</Filter>
     </Library>
+    <Library Include="..\..\..\GDAL221\lib\gdal_i.lib">
+      <Filter>资源文件</Filter>
+    </Library>
   </ItemGroup>
 </Project>

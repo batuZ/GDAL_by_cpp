@@ -10,7 +10,7 @@ int main()
 	OGRRegisterAll();
 	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
 
-	getDZX();
+	OGRLayer* res = dzxRes();
 
 	GDALDestroyDriverManager();
 	return 0;

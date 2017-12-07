@@ -176,6 +176,7 @@ COPY $(SolutionDir)gdal\geos_c.dll $(TargetDir)</Command>
     <None Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="..\..\..\GDAL221\lib\gdal_i.lib" />
     <Library Include="..\gdal\gdal_i.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -176,9 +176,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	return 0;
 }
 #pragma endregion
-int main()
+int main(const int f)
 {
-	double ss[] = { 44.4,55.5,66.6 ,77.7};
+	double ss[4];
 	double* rrr = new double();
 	getAue(ss, rrr);
 	return 0;

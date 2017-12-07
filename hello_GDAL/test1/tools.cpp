@@ -2,7 +2,7 @@
 #include "tools.h"
 
 
-
+#pragma region 数组的最大,最小,平均,方差
 double array_MaxValue(double a[], int n)
 {
 	double haha = a[0];
@@ -40,3 +40,27 @@ double array_varianceValue(double a[], int n)
 		sum += (a[i] - average)*(a[i] - average);
 	return sum / n;
 }
+#pragma endregion
+
+#pragma region GDAL的补充函数
+
+//通过实例删除layer
+bool deleteLayerByLayer(OGRDataSource *ds, OGRLayer *layer)
+{
+	bool res = false;
+	OGRLayerAttrIndex *lai = layer->GetIndex();
+	delete layer;
+	for (size_t i = 0; i < ds->GetLayerCount(); i++)
+	{
+		if (ds->GetLayer(i)->GetIndex() == lai)
+		{
+			
+			ds->DeleteLayer(i);
+			res = true;
+			break;
+		}
+	}
+	return res;
+}
+
+#pragma endregion
