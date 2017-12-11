@@ -15,37 +15,37 @@
 
 ## 引用GDAL方法 on VS2015
 
-	### 工程环境
-		工程属性中：
-			C/C++  -> 附加包含目录 ：指定到第二个包里解压出来的 include 目录
-			链接器 -> 附加库目录 ：  指定到第二个包里解压出来的 lib 目录
-			链接器 -> 输入 -> 附加依赖项 ：添加 gdal_i.lib
+### 工程环境
+	工程属性中：
+		C/C++  -> 附加包含目录 ：指定到第二个包里解压出来的 include 目录
+		链接器 -> 附加库目录 ：  指定到第二个包里解压出来的 lib 目录
+		链接器 -> 输入 -> 附加依赖项 ：添加 gdal_i.lib
 
-	### 编译事件
-		生成事件 -> 后期生成事件 -> 命令行 ：
-			COPY D:\MyCode\GDAL221\bin\expat.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\freexl.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\gdal202.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\geos.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\geos_c.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\libeay32.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\libpq.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\libxml2.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\openjp2.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\proj.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\spatialite.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\sqlite3.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\ssleay32.dll $(TargetDir)
-			COPY D:\MyCode\GDAL221\bin\iconv.dll $(TargetDir)
+### 编译事件
+	生成事件 -> 后期生成事件 -> 命令行 ：
+		COPY D:\MyCode\GDAL221\bin\expat.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\freexl.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\gdal202.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\geos.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\geos_c.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\libeay32.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\libpq.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\libxml2.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\openjp2.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\proj.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\spatialite.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\sqlite3.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\ssleay32.dll $(TargetDir)
+		COPY D:\MyCode\GDAL221\bin\iconv.dll $(TargetDir)
 
-	### 代码引用 
-		#include "gdal_alg.h"
-		#include "gdal_priv.h"
-		#include "ogrsf_frmts.h"
+### 代码引用 
+	#include "gdal_alg.h"
+	#include "gdal_priv.h"
+	#include "ogrsf_frmts.h"
 
-	### 验证代码
-		GDALAllRegister();
-		OGRRegisterAll();
-		CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
+### 验证代码
+	GDALAllRegister();
+	OGRRegisterAll();
+	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
 
 		
