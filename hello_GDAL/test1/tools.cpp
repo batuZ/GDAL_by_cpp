@@ -60,6 +60,7 @@ bool deleteLayerByLayer(OGRDataSource *ds, OGRLayer *layer)
 			break;
 		}
 	}
+	
 	return res;
 }
 

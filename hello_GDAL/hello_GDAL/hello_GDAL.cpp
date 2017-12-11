@@ -3,21 +3,14 @@
 
 #include "stdafx.h"
 #include<iostream>
-#include "../gdal/gdal_priv.h"
-#include "../gdal/gdal_alg.h"
-#include "../gdal/gdal_priv.h"   
-#include "../gdal/ogrsf_frmts.h"
+//#include "../gdal/gdal_priv.h"
+//#include "../gdal/gdal_alg.h"
+//#include "../gdal/ogrsf_frmts.h"
+#include"../gdal221/include/gdal_alg.h"
+#include "../gdal221/include/gdal_priv.h"
+#include "../gdal221/include/ogrsf_frmts.h"
 using namespace std;
 
-void getAue(double* arr, double* res)
-{
-	double f = 0;
-	for (size_t i = 0; i < 3; i++)
-	{
-		f += arr[i];
-	}
-	*res = f / 3;
-}
 
 #pragma region MyRegion
 
@@ -176,10 +169,65 @@ int _tmain(int argc, _TCHAR* argv[])
 	return 0;
 }
 #pragma endregion
-int main(const int f)
+int main()
 {
-	double ss[4];
-	double* rrr = new double();
-	getAue(ss, rrr);
+	char* inFile = "E:\\work\\A-全国资源\\DOM\\Lev13_China\\A03-78,45,73,40.img";
+	char* outFile = "C:\\temp\\ff.jpg";
+	GDALAllRegister();
+	GDALDataset *poSrcDS = (GDALDataset*)GDALOpen(inFile, GA_ReadOnly);
+	if (poSrcDS == NULL)
+	{
+		printf("打开图像失败！");
+		return 0;
+	}
+	//获取图像的基本信息,并把数据读入缓冲区间  
+	int m_Width = poSrcDS->GetRasterXSize();
+	int m_Height = poSrcDS->GetRasterYSize();
+	double* transform = new double[6];
+	poSrcDS->GetGeoTransform(transform);
+
+	double s1 = transform[1];	//1
+	double s2 = transform[2];	//2
+	double s3 = transform[4];	//3
+	double s4 = transform[5];	//4
+	double s5 = transform[0];	//5
+	double s6 = transform[3];	//6
+	const char* pro = poSrcDS->GetProjectionRef();
+
+	//把数据保存到临时文件MEM  
+	GDALDriver *pDriverMEM = GetGDALDriverManager()->GetDriverByName("MEM");
+	GDALDataset *pOutMEMDataset = pDriverMEM->Create("", m_Width, m_Height, 1, GDT_Byte, NULL);
+	unsigned char *buffer = new unsigned char[m_Width*m_Height]; //存储数据的缓冲区  
+	GDALRasterBand *poSrcDSRasterBand;
+	int i = 1;
+
+	while ((poSrcDSRasterBand = poSrcDS->GetRasterBand(i)) != NULL)
+	{
+		CPLErr err = poSrcDSRasterBand->RasterIO(GF_Read, 0, 0, m_Width, m_Height, buffer, m_Width, m_Height, GDT_Byte, 0, 0);
+		if (err != CE_None)
+		{
+			printf("读取图像数据失败！");
+			return 0;
+		}
+		/* 以下程序是生成JPG的过程，上面的程序只为获得创建过程中的一些参数，如：图像的高、宽及图像数据*/
+
+		GDALRasterBand *pOutMEMRasterBand = pOutMEMDataset->GetRasterBand(i);
+		if (pOutMEMRasterBand == NULL)
+		{
+			pOutMEMDataset->AddBand(GDT_Byte);
+			pOutMEMRasterBand = pOutMEMDataset->GetRasterBand(i);
+		}
+		err = pOutMEMRasterBand->RasterIO(GF_Write, 0, 0, m_Width, m_Height, buffer, m_Width, m_Height, GDT_Byte, 0, 0);
+		if (err != CE_None)
+		{
+			printf("写图像数据失败！");
+			return 0;
+		}
+		i++;
+	}
+	//以创建复制的方式，生成jpg文件  
+	GDALDriver *pDriverJPG = GetGDALDriverManager()->GetDriverByName("JPEG");
+	pDriverJPG->CreateCopy(outFile, pOutMEMDataset, TRUE, 0, 0, 0); //创建jpg文件  
+
 	return 0;
 }
