@@ -44,11 +44,11 @@
 	#include "ogrsf_frmts.h"
 
 ### 验证代码
-int main()
-{
-	GDALAllRegister();
-	OGRRegisterAll();
-	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
-	return 0;
-}
-		
+	int main()
+	{
+		GDALAllRegister();
+		OGRRegisterAll();
+		CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
+		return 0;
+	}
+			
