@@ -101,11 +101,30 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\MyCode\GDAL221\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\MyCode\GDAL221\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gdal_i.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>COPY D:\MyCode\GDAL221\bin\expat.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\freexl.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\gdal202.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\geos.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\geos_c.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\libeay32.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\libpq.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\libxml2.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\openjp2.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\proj.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\spatialite.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\sqlite3.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\ssleay32.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\iconv.dll $(TargetDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

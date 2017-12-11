@@ -11,14 +11,17 @@ GDALDataset * dsmDataSet;
 OGRSFDriver *shpDriver;
 OGRDataSource *shpDataSource;
 OGRSpatialReference *dsmWKT;
+OGRSFDriver *poDriver;
 
 
 
 OGRLayer * dzxRes()
 {
 	dsmDataSet = (GDALDataset *)GDALOpen(filePath, GA_ReadOnly);
-	shpDriver = (OGRSFDriver *)OGRGetDriverByName("ESRI Shapefile");
-	shpDataSource = shpDriver->CreateDataSource(shpPath, NULL);
+	//shpDriver = (OGRSFDriver *)OGRGetDriverByName("ESRI Shapefile");
+	OGRSFDriverRegistrar *registrar = OGRSFDriverRegistrar::GetRegistrar();
+	OGRSFDriver *poDriver = (OGRSFDriver *)registrar->GetDriverByName("ESRI Shapefile");
+	shpDataSource = poDriver->CreateDataSource(shpPath, NULL);
 	dsmWKT = new OGRSpatialReference(dsmDataSet->GetProjectionRef());
 
 	OGRLayer * dzx = getDZX();

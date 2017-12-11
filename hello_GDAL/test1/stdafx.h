@@ -16,11 +16,9 @@
 // TODO:  在此处引用程序需要的其他头文件
 #include<iostream>
 #include <math.h>
-#include "../gdal/gdal_priv.h"
-#include "../gdal/gdal_alg.h"
-#include "../gdal/ogrsf_frmts.h"
-//#include "../../../GDAL221/include/gdal_priv.h"
-//#include "../../../GDAL221/include/gdal_alg.h"
-//#include "../../../GDAL221/include/ogrsf_frmts.h"
+#include "gdal.h"
+#include "gdal_priv.h"
+#include "gdal_alg.h"
+#include "ogrsf_frmts.h"
 #include "tools.h"
 using namespace std;

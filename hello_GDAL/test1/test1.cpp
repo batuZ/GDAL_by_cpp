@@ -9,6 +9,7 @@ int main()
 	GDALAllRegister();
 	OGRRegisterAll();
 	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
+	CPLSetConfigOption("SHAPE_ENCODING", "");
 
 	OGRLayer* res = dzxRes();
 

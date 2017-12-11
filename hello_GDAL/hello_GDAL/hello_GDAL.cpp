@@ -3,12 +3,10 @@
 
 #include "stdafx.h"
 #include<iostream>
-//#include "../gdal/gdal_priv.h"
-//#include "../gdal/gdal_alg.h"
-//#include "../gdal/ogrsf_frmts.h"
-#include"../gdal221/include/gdal_alg.h"
-#include "../gdal221/include/gdal_priv.h"
-#include "../gdal221/include/ogrsf_frmts.h"
+#include "gdal.h"
+#include "gdal_alg.h"
+#include "gdal_priv.h"
+#include "ogrsf_frmts.h"
 using namespace std;
 
 
@@ -169,11 +167,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	return 0;
 }
 #pragma endregion
-int main()
+
+
+int converFormat()
 {
-	char* inFile = "E:\\work\\A-全国资源\\DOM\\Lev13_China\\A03-78,45,73,40.img";
+	char* inFile = "E:\\work\\A-全国资源\\DOM\\Lev7_Global\\world_lev7.img";
 	char* outFile = "C:\\temp\\ff.jpg";
 	GDALAllRegister();
+	OGRRegisterAll();
+	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
 	GDALDataset *poSrcDS = (GDALDataset*)GDALOpen(inFile, GA_ReadOnly);
 	if (poSrcDS == NULL)
 	{
@@ -229,5 +231,17 @@ int main()
 	GDALDriver *pDriverJPG = GetGDALDriverManager()->GetDriverByName("JPEG");
 	pDriverJPG->CreateCopy(outFile, pOutMEMDataset, TRUE, 0, 0, 0); //创建jpg文件  
 
+}
+
+
+int main()
+{
+	GDALAllRegister();
+	OGRRegisterAll();
+	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
+	CPLSetConfigOption("SHAPE_ENCODING", "");
+	OGRSFDriverRegistrar *registrar = OGRSFDriverRegistrar::GetRegistrar();
+	OGRSFDriver *poDriver = (OGRSFDriver *)registrar->GetDriverByName("ESRI Shapefile");
+	OGRDataSource *shpDataSource = poDriver->CreateDataSource("C:\\temp\\asf", NULL);
 	return 0;
 }

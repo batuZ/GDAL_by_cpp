@@ -106,15 +106,29 @@ COPY $(SolutionDir)gdal\geos_c.dll $(TargetDir)</Command>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\MyCode\GDAL221\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\MyCode\GDAL221\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gdal_i.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY $(SolutionDir)gdal\gdal14.dll $(TargetDir)
-COPY $(SolutionDir)gdal\geos.dll $(TargetDir)
-COPY $(SolutionDir)gdal\geos_c.dll $(TargetDir)</Command>
+      <Command>COPY D:\MyCode\GDAL221\bin\expat.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\freexl.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\gdal202.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\geos.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\geos_c.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\libeay32.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\libpq.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\libxml2.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\openjp2.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\proj.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\spatialite.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\sqlite3.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\ssleay32.dll $(TargetDir)
+COPY D:\MyCode\GDAL221\bin\iconv.dll $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -169,15 +183,7 @@ COPY $(SolutionDir)gdal\geos_c.dll $(TargetDir)</Command>
     <ClCompile Include="tools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\gdal\gdal14.dll">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </None>
     <None Include="ReadMe.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\GDAL221\lib\gdal_i.lib" />
-    <Library Include="..\gdal\gdal_i.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
