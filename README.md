@@ -44,7 +44,7 @@
 	#include "ogrsf_frmts.h"
 
 ### 验证代码
-```C/C++
+```C++
 int main()
 {
 	GDALAllRegister();
@@ -52,4 +52,4 @@ int main()
 	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
 	return 0;
 }
-```C/C++
+```
