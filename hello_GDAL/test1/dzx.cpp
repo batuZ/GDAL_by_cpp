@@ -7,27 +7,37 @@ char* shpPath = "C:\\temp\\asf";
 int jiange = 2;
 double mimLength = 200;
 double maxLength = 2000;
+
+//img
+GDALDriver *imgDriver;
+GDALDataset *imgDataSet;
 GDALDataset * dsmDataSet;
-OGRSFDriver *shpDriver;
-OGRDataSource *shpDataSource;
+
+//shp
+GDALDriver *shpDriver;
+GDALDataset *shpDataSet;
+
 OGRSpatialReference *dsmWKT;
-OGRSFDriver *poDriver;
 
 
-
+//入口
 OGRLayer * dzxRes()
 {
+	//创建图像
+	imgDriver = GetGDALDriverManager()->GetDriverByName("GTiff");
+	imgDataSet = imgDriver->Create("", 4000, 3000, 3, GDT_Byte, NULL);
+	//读取图像
 	dsmDataSet = (GDALDataset *)GDALOpen(filePath, GA_ReadOnly);
-	//shpDriver = (OGRSFDriver *)OGRGetDriverByName("ESRI Shapefile");
-	OGRSFDriverRegistrar *registrar = OGRSFDriverRegistrar::GetRegistrar();
-	OGRSFDriver *poDriver = (OGRSFDriver *)registrar->GetDriverByName("ESRI Shapefile");
-	shpDataSource = poDriver->CreateDataSource(shpPath, NULL);
+	//创建shp
+	shpDriver = OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("ESRI Shapefile");
+	shpDataSet = shpDriver->Create(shpPath, 0, 0, 0, GDT_Unknown, NULL);
+	//获取投影
 	dsmWKT = new OGRSpatialReference(dsmDataSet->GetProjectionRef());
 
 	OGRLayer * dzx = getDZX();
 	OGRLayer * dzxClean = cleanDZX(dzx);
 
-	GDALClose(shpDataSource);
+	GDALClose(shpDataSet);
 	GDALClose(dsmDataSet);
 	return nullptr;
 }
@@ -39,7 +49,7 @@ OGRLayer * getDZX()
 	GDALRasterBand *band = dsmDataSet->GetRasterBand(1);
 
 	//创建矢量图
-	OGRLayer *dzxLayer = shpDataSource->CreateLayer("dzx", dsmWKT, wkbLineString, NULL);
+	OGRLayer *dzxLayer = shpDataSet->CreateLayer("dzx", dsmWKT, wkbLineString, NULL);
 
 	//在矢量图中创建高程值字段
 	OGRFieldDefn ofieldDef1("Elevation", OFTInteger);
@@ -52,7 +62,7 @@ OGRLayer * getDZX()
 
 OGRLayer * cleanDZX(OGRLayer * layer)
 {
-	OGRLayer *cleanLayer = shpDataSource->CreateLayer("dzxClean", dsmWKT, wkbLineString, NULL);
+	OGRLayer *cleanLayer = shpDataSet->CreateLayer("dzxClean", dsmWKT, wkbLineString, NULL);
 	double *aue = new double(), *bzc = new double(), maxV, minV;
 	getBZC(layer, aue, bzc);
 	minV = *aue - *bzc * jiange;
@@ -84,8 +94,9 @@ OGRLayer * cleanDZX(OGRLayer * layer)
 		OGRFeature::DestroyFeature(af);
 	}
 
-	if (deleteLayerByLayer(shpDataSource, layer))
-		return cleanLayer;
+	/*if (deleteLayerByLayer(shpDataSource, layer))
+		return cleanLayer;*/
+	return NULL;
 }
 
 void getBZC(OGRLayer * layer, double * aue, double * bzc)

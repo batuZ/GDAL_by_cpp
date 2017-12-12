@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include<iostream>
-#include "gdal.h"
 #include "gdal_alg.h"
 #include "gdal_priv.h"
 #include "ogrsf_frmts.h"
@@ -238,10 +237,26 @@ int main()
 {
 	GDALAllRegister();
 	OGRRegisterAll();
+
+	//支持中文路径
 	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
 	CPLSetConfigOption("SHAPE_ENCODING", "");
-	OGRSFDriverRegistrar *registrar = OGRSFDriverRegistrar::GetRegistrar();
-	OGRSFDriver *poDriver = (OGRSFDriver *)registrar->GetDriverByName("ESRI Shapefile");
-	OGRDataSource *shpDataSource = poDriver->CreateDataSource("C:\\temp\\asf", NULL);
+
+	//创建高程图像 img: "HFA"
+	GDALDriver *imgDriver = GetGDALDriverManager()->GetDriverByName("GTiff");
+	GDALDataset *imgDataSet = imgDriver->Create("创建路径.tif", 4000, 3000, 1, GDT_Float32, NULL);
+
+	//读取图像
+	GDALDataset *dsmDataSet = (GDALDataset *)GDALOpen("创建路径.tif", GA_ReadOnly);
+
+	//创建shpFile
+	const char *pszDriverName = "ESRI Shapefile";
+	GDALDriver *shpDr = GetGDALDriverManager()->GetDriverByName(pszDriverName);
+	GDALDataset *shpD = shpDr->Create("C:\\temp\\asf", 0, 0, 0, GDT_Unknown, NULL);
+	shpD->CreateLayer("shpName", NULL, wkbLineString, NULL);
+
+	GDALDataset *shpDataSet = (GDALDataset*)GDALOpenEx("C:\\temp\\asf\\shpName.shp", GDAL_OF_VECTOR, NULL, NULL, NULL);
+	shpDataSet->ResetReading();
+	OGRLayer *layer = shpDataSet->GetLayerByName("shpName");
 	return 0;
 }

@@ -8,6 +8,7 @@ int main()
 {	
 	GDALAllRegister();
 	OGRRegisterAll();
+	//支持中文路径
 	CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
 	CPLSetConfigOption("SHAPE_ENCODING", "");
 
