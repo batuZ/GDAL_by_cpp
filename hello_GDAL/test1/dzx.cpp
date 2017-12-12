@@ -7,10 +7,8 @@ char* shpPath = "C:\\temp\\asf";
 int jiange = 2;
 double mimLength = 200;
 double maxLength = 2000;
-
+bool isDelete = true;
 //img
-GDALDriver *imgDriver;
-GDALDataset *imgDataSet;
 GDALDataset * dsmDataSet;
 
 //shp
@@ -23,32 +21,32 @@ OGRSpatialReference *dsmWKT;
 //入口
 OGRLayer * dzxRes()
 {
-	//创建图像
-	imgDriver = GetGDALDriverManager()->GetDriverByName("GTiff");
-	imgDataSet = imgDriver->Create("", 4000, 3000, 3, GDT_Byte, NULL);
+
 	//读取图像
 	dsmDataSet = (GDALDataset *)GDALOpen(filePath, GA_ReadOnly);
+	//文件存在？排除3波段影像
+	if (dsmDataSet == NULL || dsmDataSet->GetRasterCount() != 1)return NULL;
 	//创建shp
 	shpDriver = OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("ESRI Shapefile");
 	shpDataSet = shpDriver->Create(shpPath, 0, 0, 0, GDT_Unknown, NULL);
-	//获取投影
-	dsmWKT = new OGRSpatialReference(dsmDataSet->GetProjectionRef());
+	//获取投影  
+	const char* dsmwkt = dsmDataSet->GetProjectionRef();
+	dsmWKT = strcmp(dsmwkt, "") ? new OGRSpatialReference(dsmwkt) : NULL;
 
 	OGRLayer * dzx = getDZX();
 	OGRLayer * dzxClean = cleanDZX(dzx);
 
-	GDALClose(shpDataSet);
-	GDALClose(dsmDataSet);
-	return nullptr;
+	/*GDALClose(shpDataSet);
+	GDALClose(dsmDataSet);*/
+	return dzxClean;
 }
 
 OGRLayer * getDZX()
 {
-
-	cout << "获取图像" << filePath << endl;
 	GDALRasterBand *band = dsmDataSet->GetRasterBand(1);
 
 	//创建矢量图
+	deleteLayerByName(shpDataSet, "dzx");
 	OGRLayer *dzxLayer = shpDataSet->CreateLayer("dzx", dsmWKT, wkbLineString, NULL);
 
 	//在矢量图中创建高程值字段
@@ -57,11 +55,13 @@ OGRLayer * getDZX()
 
 	GDALContourGenerate(band, jiange, 0, 0, NULL, false, 0, (OGRLayerH)dzxLayer, -1, 0, NULL, NULL);
 
+	GDALClose(band);
 	return dzxLayer;
 }
 
 OGRLayer * cleanDZX(OGRLayer * layer)
 {
+	deleteLayerByName(shpDataSet, "dzxClean");
 	OGRLayer *cleanLayer = shpDataSet->CreateLayer("dzxClean", dsmWKT, wkbLineString, NULL);
 	double *aue = new double(), *bzc = new double(), maxV, minV;
 	getBZC(layer, aue, bzc);
@@ -93,10 +93,10 @@ OGRLayer * cleanDZX(OGRLayer * layer)
 		}
 		OGRFeature::DestroyFeature(af);
 	}
+	if (isDelete)
+		deleteLayerByName(shpDataSet, layer->GetName());
 
-	/*if (deleteLayerByLayer(shpDataSource, layer))
-		return cleanLayer;*/
-	return NULL;
+	return cleanLayer;
 }
 
 void getBZC(OGRLayer * layer, double * aue, double * bzc)

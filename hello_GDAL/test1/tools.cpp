@@ -43,25 +43,16 @@ double array_varianceValue(double a[], int n)
 #pragma endregion
 
 #pragma region GDAL的补充函数
-
-//通过实例删除layer
-bool deleteLayerByLayer(OGRDataSource *ds, OGRLayer *layer)
+//通过名字删除Layer
+void deleteLayerByName(GDALDataset *ds, const char *name)
 {
-	bool res = false;
-	OGRLayerAttrIndex *lai = layer->GetIndex();
-	delete layer;
-	for (size_t i = 0; i < ds->GetLayerCount(); i++)
-	{
-		if (ds->GetLayer(i)->GetIndex() == lai)
-		{
-			
-			ds->DeleteLayer(i);
-			res = true;
-			break;
-		}
-	}
-	
-	return res;
+	if (ds != NULL)
+		for (size_t i = 0; i < ds->GetLayerCount(); i++)
+			if (!strcmp(ds->GetLayer(i)->GetName(), name))
+			{
+				ds->DeleteLayer(i);
+				break;
+			}
 }
 
 #pragma endregion

@@ -6,6 +6,9 @@
 
 int main()
 {	
+
+
+
 	GDALAllRegister();
 	OGRRegisterAll();
 	//支持中文路径
@@ -13,6 +16,7 @@ int main()
 	CPLSetConfigOption("SHAPE_ENCODING", "");
 
 	OGRLayer* res = dzxRes();
+
 
 	GDALDestroyDriverManager();
 	return 0;
